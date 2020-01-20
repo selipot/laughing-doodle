@@ -51,20 +51,22 @@ legend([h1 h2 h3],{'$\widehat{S}$: multitaper estimate','95\% Confidence Interva
 %% log log plot
 
 delete(hl);
-ylog,xlog,xlim([f(2)/2/pi 0.51]);
+set(gca,'Xscale','log','Yscale','log');
+xlim([f(2)/2/pi 0.51]);
 ylim(10.^[-4 log10(0.5)])
 legend([h1 h2 h3],{'$\widehat{S}$: multitaper estimate','95\% Confidence Interval','Matern model'},'location','best')
 
 %% variance-preserving plot (don't do it)
 
 figure,%plot(f/2/pi,szz);
-[h1,h2] = shadyerror((f(2:end)/2/pi),szz(2:end).*f(2:end)/2/pi,...
+[h1,h2] = shadyerror(log(f(2:end)/2/pi),szz(2:end).*f(2:end)/2/pi,...
     [(1-ci(1)).*szz(2:end).*f(2:end)/2/pi ...
     (ci(2)-1).*szz(2:end).*f(2:end)/2/pi]);
-hold on,h3 = plot((f/2/pi),sm.*(f/2/pi));
+delete(h2);
+hold on,h3 = plot(log(f/2/pi),sm.*(f/2/pi));
 set(h3,'linewidth',1.5);
-xlabel('Frequency $f$ $\log_{10}$ (1/[time unit])')
-xlog,xlim([f(2)/2/pi 0.51]), box on
+xlabel('$\ln (f)$: $\ln$(1/[time unit])')
+xlim([log(f(2)/2/pi) log(0.51)]), box on
 ylabel('$S \times f$ [variable unit]$^2$')
 legend([h1 h3],{'$\widehat{S}$: multitaper estimate','Matern model'},'location','best')
 
